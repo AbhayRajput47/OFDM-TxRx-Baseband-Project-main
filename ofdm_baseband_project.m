@@ -43,7 +43,8 @@ if Ncp < (Lh-1)
 end
 
 % Frequency response per subcarrier (for equalisation and plotting)
-Hk = fft(h, Nsc).';     % Nsc x 1
+%Hk = fft(h, Nsc).';     % Nsc x 1
+Hk = fft(h, Nsc);
 
 % ------------------------ 3. Generate Random 16-QAM Symbols ------------
 % Total QAM symbols: Nsc subcarriers * Nsym OFDM symbols
@@ -124,7 +125,8 @@ for ii = 1:numel(SNRdB_vec)
     Y = fft(y_noCP, Nsc, 1);                 % frequency-domain with channel
 
     % ----- One-tap equalisation on each subcarrier ----------------------
-    Y_eq = Y ./ repmat(Hk, 1, Nsym);        % Nsc x Nsym
+    %Y_eq = Y ./ repmat(Hk, 1, Nsym);        % Nsc x Nsym
+    Y_eq = Y ./ Hk;
 
     % Collect equalised QAM symbols
     data_qam_hat = Y_eq(:);                 % N_qam x 1
